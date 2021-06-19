@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <complex>
+#include <vector>
 using namespace std;
 int noOfDigit(long x) {
 	int n = 0;
@@ -33,15 +34,30 @@ void schonhageStrassenMultiplication(long a, long b, int n, int m) {
 	for (int i = (n + m - 2); i >= 0; i--) {
 		cout << linearConvolution[i] << " ";
 	}
+
+
 	long int product = 0;
+	vector<long int> prod(n + m,0);
 	int nextCarry = 0, base = 1;
 	for (int i = 0; i < n + m - 1; i++) {
 		linearConvolution[i] += nextCarry;
 		product = product + (base * (linearConvolution[i] % 10));
+		prod[i] = prod[i] + (base * (linearConvolution[i] % 10));
 		nextCarry = linearConvolution[i] / 10;
-		base *= 10;
+		//base *= 10;
 	}
-	cout << "\nresult: \n" << product << endl;
+	if (nextCarry)
+		prod[n + m - 1] = nextCarry;
+
+	cout << "\nresult: \n" << endl;
+	for (int i = 0; i < n + m; i++)
+		cout  << prod[i];
+
+	cout << "\nresult: \n" << endl;
+	for (int i = n + m-1 ; i >= 0; i--)
+		cout  << prod[i];
+
+	//cout << "\nresult: \n" << product << endl;
 }
 int main(int* argc, char** argv)
 {
@@ -70,6 +86,7 @@ int main(int* argc, char** argv)
 		if (rank == 1) {
 			int n = noOfDigit(a);
 			int m = noOfDigit(b);
+			
 			schonhageStrassenMultiplication(a, b, n, m);
 		}
 	}
